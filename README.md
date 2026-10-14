@@ -1,6 +1,6 @@
 # intro_to_cl_project
 
-Course project for *Introduction to Computational Linguistics and Natural Language Processing*: **Sampling the lexicon**.
+Course project for *Introduction to Computational Linguistics*: **Sampling the lexicon**.
 
 ## About the project
 
