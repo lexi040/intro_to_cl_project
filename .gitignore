@@ -3,3 +3,4 @@ __pycache__/
 cache/
 data/bible-corpus/
 figures/*.png
+updates/
