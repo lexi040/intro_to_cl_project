@@ -42,10 +42,11 @@ def save_tokens(language, scheme, per_verse_lists):
     with open(path, "w", encoding="utf-8") as f:
         json.dump(per_verse_lists, f, ensure_ascii=False)
 
-corpus = read_bible()
-for language, verses in corpus.items():
-    save_tokens(language, "ws_raw", tokenize_ws_raw(verses))
-    save_tokens(language, "ws_lower", tokenize_ws_lower(verses, language))
-    save_tokens(language, "spacy", tokenize_spacy(verses, language))
+if __name__ == "__main__":
+    corpus = read_bible()
+    for language, verses in corpus.items():
+        save_tokens(language, "ws_raw", tokenize_ws_raw(verses))
+        save_tokens(language, "ws_lower", tokenize_ws_lower(verses, language))
+        save_tokens(language, "spacy", tokenize_spacy(verses, language))
 
-    print(language, "done")
+        print(language, "done")
