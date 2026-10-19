@@ -1,0 +1,28 @@
+!!!1sentencepiece documentation 
+
+- language agnostic tokenizer and detokenizer for neural based text processing
+- c++ and python impls for subword units 
+- size of vocab predetermined prior to training from raw sentences
+- 4 comps : normalizer, trainer, encoder, decoder
+- normalizer = normalizes semanitcally equivalent unicode characters into canonical forms
+- trainer = takes a specific type of subword model as a parameter
+- encoder internally executes normalizer => normalization of input text and tokenization 
+into subword sequence with the subword model trained by trainer
+- decoder converts the subword seq into normalized text
+- encoder decoder architecture kinda?
+- manages the vocabulary to id mapping and can directly convert text into an id sequence et vice versa
+- lossless tokenization = all the information to reproduce the normalized
+text is preserved in the encoder’s outpu
+- detokenization is language dependent
+- decoder is the inverse operation of encoder
+- given an input sentence (or word) of length N , BPE segmentation requires O(N 2) computational cost 
+when we naively scan the pair of symbols in every iteration. Sentence-Piece adopts an O(N log(N )) 
+algorithm in which the merged symbols are managed by a binary heap
+- the model file includes not only the vocabulary and segmentation parameters, but also the pre-compiled 
+finite state transducer for character normalization
+
+github cheatsheet for tokenization comparision using sentencepiece 
+https://github.com/google/sentencepiece/blob/master/python/tokenizer_comparison_cheat_sheet.mdhttps://github.com/google/sentencepiece/blob/master/python/tokenizer_comparison_cheat_sheet.md
+
+bpe droput night be needed later
+https://sentencepiece.org/concept/bpe-dropout/

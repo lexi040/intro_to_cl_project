@@ -2,6 +2,7 @@ from data_processing import read_bible
 from config import SPACY_MODELS, CACHE_DIR
 import json
 import spacy
+from analysis import get_word_frequencies, plot_zipf
 
 def tokenize_ws_raw(verses):
     result = []
@@ -47,5 +48,7 @@ for language, verses in corpus.items():
     save_tokens(language, "ws_raw", tokenize_ws_raw(verses))
     save_tokens(language, "ws_lower", tokenize_ws_lower(verses, language))
     save_tokens(language, "spacy", tokenize_spacy(verses, language))
-
+    get_word_frequencies([token for verse in tokenize_ws_raw(verses) for token in verse])
+    plot_zipf({"ws_raw": [token for verse in tokenize_ws_raw(verses) for token in verse]}, language)
     print(language, "done")
+

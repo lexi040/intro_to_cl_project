@@ -3,6 +3,7 @@ from transformers import AutoTokenizer
 from config import XLMR_MODEL
 import json
 from config import CACHE_DIR
+from analysis import get_word_frequencies, plot_zipf
 
 def save_tokens(language, scheme, per_verse_lists):
     path = CACHE_DIR / f"{language}_{scheme}.json"
@@ -21,6 +22,8 @@ def tokenize_xlmr(verses):
 corpus = read_bible()
 for language, verses in corpus.items():
     save_tokens(language, "xlmr", tokenize_xlmr(verses))
+    get_word_frequencies([token for verse in tokenize_xlmr(verses) for token in verse])
+    plot_zipf({"xlmr": [token for verse in tokenize_xlmr(verses) for token in verse]}, language)    
     print(language, "done")
 
 
