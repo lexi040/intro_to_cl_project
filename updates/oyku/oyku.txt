@@ -29,4 +29,4 @@ Where I used ai:
 Where I used ai:
 
 - I used "Resolve with Copilot" in VS Code to resolve the conflict.
-- Understanding sets and intersection for the verse alignment: Claude explained it with a small example in the Python REPL, then I typed the functions into the file piece by piece and Claude checked my indentation.
+- Understanding sets and intersection for the verse alignment.
