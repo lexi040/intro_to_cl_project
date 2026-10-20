@@ -1,0 +1,31 @@
+
+
+17 October 2026 
+
+- Wrote tokenize_ws_raw, tokenize_ws_lower, lowercase, tokenize_spacy, save_tokens and the main loop.
+- Tested that lowercasing breaks Turkish İ (the token length was 8 instead of 7), looked up the problem and found PyICU, then decided to fix it with .replace() instead.
+- Ran the script and produced the 15 .json files in cache/.
+
+Where I used ai:
+
+- Learning Python basics step by step, because I had not programmed before and also how spaCy works, explaining error messages and finding indentation mistakes in my code. Claude explained each line and showed example lines different from the assignment and I typed the code in the file myself and tested it.
+
+
+
+19 October 2026 
+
+- Added the if __name__ == "__main__": guard and indented the run code under it and tested that importing save_tokens now only prints my test message.
+
+Where I used ai:
+
+- Finding out why importing save_tokens re-ran everything: Python runs the whole file on import. Claude explained if __name__ == "__main__".
+
+
+
+20 October 2026 
+
+Where I used ai:
+
+- I used "Resolve with Copilot" in VS Code to resolve the conflict.
+
+
