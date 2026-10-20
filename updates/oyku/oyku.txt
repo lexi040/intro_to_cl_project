@@ -24,8 +24,9 @@ Where I used ai:
 
 20 October 2026 
 
+- Wrote verse_id and align_verses in data_processing.py: they keep only the verse IDs that exist in all 5 languages (7446 verses per language after alignment) and I tested it from __main__.
+
 Where I used ai:
 
 - I used "Resolve with Copilot" in VS Code to resolve the conflict.
-
-
+- Understanding sets and intersection for the verse alignment: Claude explained it with a small example in the Python REPL, then I typed the functions into the file piece by piece and Claude checked my indentation.

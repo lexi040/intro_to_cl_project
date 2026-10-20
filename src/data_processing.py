@@ -126,11 +126,27 @@ def read_bible():
             corpus[code] = []
     return corpus
 
- 
+def verse_id(verse):
+    return f"{verse['book']}.{verse['chapter']}.{verse['verse']}"
+
+def align_verses(corpus):
+    id_sets = []
+    for lang, verses in corpus.items():
+        ids = {verse_id(v) for v in verses}
+        id_sets.append(ids)
+    common_ids = set.intersection(*id_sets)
+    aligned = {}
+    for lang, verses in corpus.items():
+        aligned[lang] = [v for v in verses if verse_id(v) in common_ids]
+    return aligned
+
 if __name__ == "__main__":
     texts = read_bible()
     for lang, verses in texts.items():
         print(lang, len(verses))
 
-
+    aligned = align_verses(texts)
+    print("--- after alignment ---")
+    for lang, verses in aligned.items():
+        print(lang, len(verses))
 
