@@ -1,6 +1,10 @@
 from collections import Counter
 import matplotlib.pyplot as plt
 from pathlib import Path
+import pandas as pd
+from collections import Counter
+from config import LANGUAGES , OPTIONS
+from cache_io import load_tokens
 
 def get_word_frequencies(tokens):
     counter = Counter(tokens)
@@ -42,3 +46,35 @@ def plot_zipf(rank_frequency_distribution, language, sp = False, size = None):
     Path(filename).parent.mkdir(parents=True, exist_ok=True)
     plt.savefig(filename, bbox_inches='tight')
     plt.close()
+
+def a2_counts(verses):
+    #test to make sure input is a list f verse tokens 
+    assert all(isinstance(v, list) for v in verses), "expected list of verses"
+
+    counts = Counter(t for v in verses for t in v)
+    return{
+        "verses" : len(verses),
+        "tokens" : sum(counts.values()),
+        "vocabulary" : len(counts),
+        "hapax" : sum(1 for c in counts.values() if c == 1),
+    }
+
+def a2_stats():
+    rows = []
+    for language in LANGUAGES:
+        for scheme in OPTIONS:
+            try:
+                s = a2_counts(load_tokens(language, scheme))
+            except FileNotFoundError:
+                print(f"File not found for {language} with scheme {scheme}. Skipping.")
+                continue
+            rows.append({"language": language, "scheme": scheme, **s})
+
+    df = pd.DataFrame(rows)
+    print(df.to_string(index=False))
+    df.to_csv("cache/a2_stats.csv", index=False)
+
+    return df
+
+def same_size(df):
+    return 
