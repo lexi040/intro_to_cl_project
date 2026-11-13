@@ -25,6 +25,9 @@ SPACY_MODELS = {
     "tr": None,   
 }
 
+OPTIONS = ["ws_raw", "ws_lower", "spacy", "xlmr", "bpe2000", "bpe8000", "bpe32000"]
+
+
 BPE_VOCAB_SIZES = [2000, 8000, 32000]
 XLMR_MODEL = "FacebookAI/xlm-roberta-base"
 

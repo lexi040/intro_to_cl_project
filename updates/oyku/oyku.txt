@@ -24,8 +24,35 @@ Where I used ai:
 
 20 October 2026 
 
+- Wrote verse_id and align_verses in data_processing.py: they keep only the verse IDs that exist in all 5 languages (7446 verses per language after alignment) and I tested it from __main__.
+
 Where I used ai:
 
 - I used "Resolve with Copilot" in VS Code to resolve the conflict.
+- Understanding sets and intersection for the verse alignment.
 
+
+
+21-22 October 2026 
+
+- Changed the tokenizer to use the aligned data (align_verses(read_bible())) and regenerated the 15 cache files, now 7446 verses each.
+- Started src/baseline_bigram.py: wrote load_tokens (reads a cache file) and build_bigram_table (a dictionary from each word to the list of words that follow it, without crossing verse boundaries).
+
+Where I used ai:
+
+- Claude noticed that the cache still had 7957 unaligned verses and explained the right call order.
+- Learning with open, json.load, f-strings with Path, dictionaries of lists, nested for loops and range(len(x) - 1). Claude reviewed my code line by line and explained my errors (wrong import, typos, misplaced lines).
+- Claude drafted a short message to Lexi and Ani about the alignment fix.
+
+
+
+5 November 2026 
+
+- Wrote generate_verse: starts from the first word of a real verse and keeps choosing a random next word from the table until the fake verse has the same length as the real one. At a dead end it continues from a random word in the table.
+- Wrote generate_corpus (one fake verse per real verse), save_tokens and a main loop over the 5 languages with random.seed(42) for each language.
+- Ran it and produced cache/{en,fr,de,fi,tr}_bigram_spacy.json.
+
+Where I used ai:
+
+- Learning, fixing my own mistakes, dead-end problem (219 English words with no next word, so 238 verses would crash with KeyError) and how to handle it.
 

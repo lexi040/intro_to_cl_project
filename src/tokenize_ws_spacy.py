@@ -1,4 +1,4 @@
-from data_processing import read_bible
+from data_processing import read_bible, align_verses
 from config import SPACY_MODELS, CACHE_DIR
 import json
 import spacy
@@ -44,7 +44,7 @@ def save_tokens(language, scheme, per_verse_lists):
         json.dump(per_verse_lists, f, ensure_ascii=False)
 
 if __name__ == "__main__":
-    corpus = read_bible()
+    corpus = align_verses(read_bible())
     for language, verses in corpus.items():
         save_tokens(language, "ws_raw", tokenize_ws_raw(verses))
         save_tokens(language, "ws_lower", tokenize_ws_lower(verses, language))

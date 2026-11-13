@@ -7,3 +7,8 @@ def save_tokens(language, scheme, per_verse_lists):
     path = CACHE_DIR / f"{language}_{scheme}.json"
     with open(path, "w", encoding="utf-8") as f:
         json.dump(per_verse_lists, f, ensure_ascii=False)
+
+def load_tokens(language, scheme):
+    path = CACHE_DIR / f"{language}_{scheme}.json"
+    with open(path, "r", encoding="utf-8") as f:
+        return json.load(f)

@@ -47,9 +47,11 @@ if __name__ == "__main__":
         for language, verses in corpus.items():
             for size in BPE_VOCAB_SIZES:
                 model = train_bpe(verses, language, size)
+                #token list per verse
                 verse_tokens = tokenize_bpe(verses, model)
+                #no verse boundries
                 flat_tokens = [token for verse in verse_tokens for token in verse]
-                save_tokens( language, f"bpe{size}", flat_tokens)
+                save_tokens( language, f"bpe{size}", verse_tokens)
                 get_word_frequencies(flat_tokens)
                 plot_zipf({f"bpe{size}": flat_tokens}, language, sp=True, size=size)
                 print(language, "done")
