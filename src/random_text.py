@@ -9,9 +9,6 @@ random.seed(SEED)
 
 corpus = read_bible()
 for language, verses in corpus.items():
-    if language != "en":
-        continue
-    verses = verses[:5]
     all_text = " ".join(v["text"] for v in verses)
     char_counts = Counter(all_text)
     chars = list(char_counts.keys())
