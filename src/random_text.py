@@ -1,13 +1,13 @@
 import random
 from pathlib import Path
 from collections import Counter
-from data_processing import read_bible
+from data_processing import align_verses, read_bible
 from cache_io import save_tokens
 from config import SEED
 
 random.seed(SEED)
 
-corpus = read_bible()
+corpus = align_verses(read_bible())
 for language, verses in corpus.items():
     all_text = " ".join(v["text"] for v in verses)
     char_counts = Counter(all_text)
