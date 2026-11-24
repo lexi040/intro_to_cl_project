@@ -71,3 +71,17 @@ Where I used ai:
 
 - Step by step instructions for running the tokenizers and editing my code. I made the code changes myself, Claude helped me fix my syntax and indentation errors.
 - Claude noticed that the bpe token files were saved to src/cache because cache_io uses a relative path, and that xlmr/bpe use read_bible instead of align_verses (different verse counts).
+
+25 November 2026 
+
+- Wrote src/figures.py: rank-frequency (Zipf) plots of all 7 tokenizations, one panel per language (figures/overlay_all.png).
+- Wrote src/bootstrap.py: resamples verses with replacement, computes alpha with ls_alpha on each resample, 95% CI from 1000 resamples, results saved to cache/bootstrap_alpha.csv.
+- Found that fitting alpha on all ranks made the bootstrap unreliable (alpha outside its own CI). Tested rmax = None / 1000 / 500 on English (src/rmax_comparison.py) and chose rmax = 500. With rmax = 500, alpha is inside its CI for all 35 combinations.
+- Wrote src/table.py: N, V, hapax + alpha and CI in one table (cache/a3_table.csv).
+- Wrote src/bpe_alpha_plot.py: alpha vs BPE vocabulary size per language with CIs (figures/bpe_alpha.png). 
+
+
+Where I used ai:
+- Claude explained the A3 concepts (Zipf, alpha, bootstrap, CIs) and guided me step by step while I wrote the code; it checked my code and explained my errors.
+- Claude wrote some parts on request (CSV saving, docstrings)
+- Claude spotted that alpha fell outside its bootstrap CI, explained why (rare-word tail) and helped test rmax number.
