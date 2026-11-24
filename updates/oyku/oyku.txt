@@ -40,9 +40,9 @@ Where I used ai:
 
 Where I used ai:
 
-- Claude noticed that the cache still had 7957 unaligned verses and explained the right call order.
+- cache still had 7957 unaligned verses and explained the right call order.
 - Learning with open, json.load, f-strings with Path, dictionaries of lists, nested for loops and range(len(x) - 1). Claude reviewed my code line by line and explained my errors (wrong import, typos, misplaced lines).
-- Claude drafted a short message to Lexi and Ani about the alignment fix.
+
 
 
 
@@ -56,3 +56,18 @@ Where I used ai:
 
 - Learning, fixing my own mistakes, dead-end problem (219 English words with no next word, so 238 verses would crash with KeyError) and how to handle it.
 
+
+
+
+24 November 2026 
+
+- Fixed the dead-end fallback in src/baseline_bigram.py: it now picks from a flat list of all tokens (frequency-weighted) instead of uniformly from the word types in the table, which was oversampling rare words and flattening the Zipf curve.
+- Extended the bigram baseline to all tokenizers: spacy, xlmr, bpe2000, bpe8000, bpe32000 (25 files in cache/).
+- Ran tokenize_xlmr.py and bpe_tokenization.py locally to get the xlmr and bpe token files.
+- Each fake verse still starts with the real first word, to mention in the write-up.
+- Added docstrings to src/baseline_bigram.py and src/tokenize_ws_spacy.py (module and function descriptions), so they can be read with pydoc.
+
+Where I used ai:
+
+- Step by step instructions for running the tokenizers and editing my code. I made the code changes myself, Claude helped me fix my syntax and indentation errors.
+- Claude noticed that the bpe token files were saved to src/cache because cache_io uses a relative path, and that xlmr/bpe use read_bible instead of align_verses (different verse counts).
