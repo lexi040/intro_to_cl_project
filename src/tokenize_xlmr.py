@@ -19,11 +19,12 @@ def tokenize_xlmr(verses):
         result.append(tokens)
     return result
 
-corpus = read_bible()
-for language, verses in corpus.items():
-    save_tokens(language, "xlmr", tokenize_xlmr(verses))
-    get_word_frequencies([token for verse in tokenize_xlmr(verses) for token in verse])
-    plot_zipf({"xlmr": [token for verse in tokenize_xlmr(verses) for token in verse]}, language)    
-    print(language, "done")
+if __name__ == "__main__":
+    corpus = read_bible()
+    for language, verses in corpus.items():
+        save_tokens(language, "xlmr", tokenize_xlmr(verses))
+        get_word_frequencies([token for verse in tokenize_xlmr(verses) for token in verse])
+        plot_zipf({"xlmr": [token for verse in tokenize_xlmr(verses) for token in verse]}, language)    
+        print(language, "done")
 
 

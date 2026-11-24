@@ -5,6 +5,8 @@ import pandas as pd
 from collections import Counter
 from config import LANGUAGES , OPTIONS
 from cache_io import load_tokens
+import numpy as np
+from scipy.stats import linregress
 
 def get_word_frequencies(tokens):
     counter = Counter(tokens)
@@ -77,4 +79,23 @@ def a2_stats():
     return df
 
 def same_size(df):
+    for language in LANGUAGES:
+        nat = a2_counts(load_tokens(language, "spacy"))
+        for b in ("random_spacy", "bigram_spacy"):
+            s = a2_counts(load_tokens(language, b))
+            assert s["verses"] == nat["verses"] and s["tokens"] == nat["tokens"], (language, b)
     return 
+
+def sorted_counts(tokens):
+    #counts of each token sorted by descending freq, returned as a numpy array
+    return np.array(sorted(Counter(tokens).values(), reverse=True, dtype=float))
+
+def ls_alpha(counts, rmax=None):
+    c = np.asarray(counts, float)
+    if rmax is not None:
+        c = c[:rmax]
+    r = np.arange(1, len(c) + 1)
+    res = linregress(np.log(r), np.log(c))
+    #return aplha > 0
+    return -res.slope
+

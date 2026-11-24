@@ -1,16 +1,8 @@
 import json
 import random
 from config import CACHE_DIR, SEED, LANGUAGES
+from cache_io import load_tokens, save_tokens
 
-def load_tokens(language, scheme):
-    path = CACHE_DIR / f"{language}_{scheme}.json"
-    with open(path, "r", encoding="utf-8") as f:
-        return json.load(f)
-
-def save_tokens(language, scheme, verses):
-    path = CACHE_DIR / f"{language}_{scheme}.json"
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(verses, f, ensure_ascii=False)
 
 def build_bigram_table(verses):
     table = {}

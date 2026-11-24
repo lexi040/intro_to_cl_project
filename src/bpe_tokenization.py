@@ -7,12 +7,12 @@ from data_processing import read_bible
 from analysis import get_word_frequencies, plot_zipf
 
 MODEL_DIR = CACHE_DIR / "spm_models"
-MODEL_DIR.mkdir(exist_ok=True)
+MODEL_DIR.mkdir(parents=True, exist_ok=True)
 dataset = read_bible()  
 
 def train_bpe(verses, language, vocab_size):
     #turn token list into file to fir sentencepiece trainer
-    prefix = MODEL_DIR / f"_{language}_bpe{vocab_size}"     
+    prefix = MODEL_DIR / f"{language}_bpe{vocab_size}"     
     model = prefix.with_suffix(".model")
     
     if not model.exists():
@@ -52,7 +52,7 @@ if __name__ == "__main__":
                 #no verse boundries
                 flat_tokens = [token for verse in verse_tokens for token in verse]
                 save_tokens( language, f"bpe{size}", verse_tokens)
-                get_word_frequencies(flat_tokens)
+                #get_word_frequencies(flat_tokens)
                 plot_zipf({f"bpe{size}": flat_tokens}, language, sp=True, size=size)
                 print(language, "done")
 

@@ -8,3 +8,5 @@ transformers
 powerlaw
 pytest
 Path
+powerlaw 
+scipy
