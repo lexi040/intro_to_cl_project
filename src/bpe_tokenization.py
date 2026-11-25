@@ -2,7 +2,8 @@ import sentencepiece as spm
 
 from config import CACHE_DIR, BPE_VOCAB_SIZES, LANGUAGES    
 from cache_io import save_tokens
-from data_processing import read_bible
+from data_processing import read_bible, align_verses
+
 
 from analysis import get_word_frequencies, plot_zipf
 
@@ -43,7 +44,7 @@ def tokenize_bpe(verses, model_path):
 
 
 if __name__ == "__main__":
-        corpus = read_bible()
+        corpus = align_verses(read_bible())
         for language, verses in corpus.items():
             for size in BPE_VOCAB_SIZES:
                 model = train_bpe(verses, language, size)
