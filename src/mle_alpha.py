@@ -1,13 +1,13 @@
-from config import CACHE_DIR, LANGUAGES
+from config import CACHE_DIR, LANGUAGES, OPTIONS
 from cache_io import load_tokens
 from collections import Counter
 import powerlaw
 import numpy as np
 
 
-def mle_alpha(language, scheme="xlmr"):
+def mle_alpha(language, scheme):
     """MLE Zipf exponent + corpus stats for one language × tokenization scheme."""
-    data = load_tokens(lang, "xlmr")            # one list of per-verse
+    data = load_tokens(lang, scheme)            # one list of per-verse
     flat = [tok for verse in data for tok in verse]
     counts = list(Counter(flat).values())       # how many times a token appears
 
@@ -30,11 +30,10 @@ def mle_alpha(language, scheme="xlmr"):
 
 if __name__ == "__main__":
     for lang in LANGUAGES:
-        r = mle_alpha(lang)                                                     # fit one language
-        print(f"{r['language']}: γ={r['gamma']:.4f} xmin={r['xmin']} "          # report γ to 4 decimals
-              f"α={r['alpha']:.4f} |V|={r['V']} N={r['N']} "                    # and α, |V|, N on the same line
-              f"hapax={r['hapax']} ({r['hapax_prop']:.1%})")                    # hapax count and % of vocabulary
-
+        for scheme in OPTIONS:
+            r = mle_alpha(lang, scheme)                                                         # fit one language
+            print(f"{r['language']}/{r['scheme']}: α={r['alpha']:.4f} "
+                  f"|V|={r['V']} N={r['N']} hapax={r['hapax']}")
     "-α test"  
     # Validation: recover a known γ from synthetic data
     rng = np.random.default_rng(0)                                              # fixed seed → reproducible synthetic sample
@@ -42,7 +41,6 @@ if __name__ == "__main__":
         parameters=[2.0], xmin=1, discrete=True).generate_random(10000)         # with known γ=2.0, integer values, lower bound 1…# …and draw 10,000 samples from it
     fit_syn = powerlaw.Fit(synthetic, discrete=True)                            # run the same fit on the synthetic data
     print("recovered γ:", fit_syn.power_law.alpha)                              # should be close to 2.0 #
-
 
 
 
@@ -71,4 +69,3 @@ if __name__ == "__main__":
 #print("γ =", fit.power_law.alpha)
 #print("xmin =", fit.power_law.xmin)
 #print("α_zipf =", 1 / (fit.power_law.alpha - 1))
-
