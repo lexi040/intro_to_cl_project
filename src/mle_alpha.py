@@ -7,7 +7,7 @@ import numpy as np
 
 def mle_alpha(language, scheme):
     """MLE Zipf exponent + corpus stats for one language × tokenization scheme."""
-    data = load_tokens(lang, scheme)            # one list of per-verse
+    data = load_tokens(language, scheme)            # one list of per-verse
     flat = [tok for verse in data for tok in verse]
     counts = list(Counter(flat).values())       # how many times a token appears
 
