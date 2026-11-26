@@ -1,20 +1,21 @@
 """
-corpus statistics and alpha with bootstrap CI
-for every language and tokenization.
+Corpus statistics and alpha with bootstrap CI for every language and
+tokenization, and for the baselines (bigram and random typing).
 
-Run from the project root (after bootstrap.py): python src/table.py
+Run from the project root (after both bootstrap runs): python src/table.py
 """
 
 import pandas as pd
 from config import LANGUAGES, OPTIONS, CACHE_DIR
 from cache_io import load_tokens
 from analysis import a2_counts
+from bootstrap import BASELINES
 
 if __name__ == "__main__":
-    # corpus statistics (N, V, hapax) for every language x tokenization
+    # corpus statistics (N, V, hapax) for every language x scheme
     stats = []
     for language in LANGUAGES:
-        for scheme in OPTIONS:
+        for scheme in OPTIONS + BASELINES:
             counts = a2_counts(load_tokens(language, scheme))
             stats.append({
                 "language": language,
@@ -25,7 +26,9 @@ if __name__ == "__main__":
             })
     stats = pd.DataFrame(stats)
     # alpha and its bootstrap CI, saved by bootstrap.py
-    boot = pd.read_csv(CACHE_DIR / "bootstrap_alpha.csv")
+    # (real texts and baselines are in two files, put them one under the other)
+    boot = pd.concat([pd.read_csv(CACHE_DIR / "bootstrap_alpha.csv"),
+                      pd.read_csv(CACHE_DIR / "bootstrap_baselines.csv")])
     # join the two tables on language + scheme
     table = stats.merge(boot, on=["language", "scheme"])
     # share of the vocabulary that appears only once
