@@ -85,3 +85,22 @@ Where I used ai:
 - Claude explained the A3 concepts (Zipf, alpha, bootstrap, CIs) and guided me step by step while I wrote the code; it checked my code and explained my errors.
 - Claude wrote some parts on request (CSV saving, docstrings)
 - Claude spotted that alpha fell outside its bootstrap CI, explained why (rare-word tail) and helped test rmax number.
+
+
+25 November 2026 (part 2)
+
+- Fixed a small bug 
+- Added MLE to src/bootstrap.py: MLE alpha and xmin from Ani's mle_alpha, plus a new mle_fit(verses) that does the same fit on resampled verses, so both least squares and MLE now get a 95% bootstrap CI (cache/bootstrap_alpha.csv). xmin is chosen again on every resample, so its uncertainty is part of the CI.
+- Found that the MLE bootstrap is unstable: the MLE alpha often falls outside its own CI, worst when xmin is small (xmin = 1 for fi and tr ws_raw/ws_lower). Resampling verses changes the counts of rare words (a word in a verse drawn twice appears twice, a word in a verse not drawn disappears), and MLE with small xmin depends on exactly those counts. First tried with xmin fixed from the full corpus, then re-estimated on every resample: both were biased. Least squares with rmax = 500 stays inside its CI, so this is our argument for which estimate we trust.
+
+Where I used ai:
+- Claude helped me write the MLE bootstrap and explained why it gave alphas outside their CI (rare-word counts change when verses are resampled), noticing the ang/language bug in mle_alpha.py.
+
+26 November
+- Reran the xlmr, bpe and bigram tokenizers and regenerated the figures and the table.
+- Added the baselines to src/bootstrap.py and src/table.py
+- Ran the full bootstrap (1000 resamples) for real texts and baselines. Least squares alpha is inside its CI for all 35 real combinations, MLE only for 21 (all 14 misses have xmin <= 7).
+- Results: bigram alpha is almost the same as the real text (word frequencies are kept). Random typing gives alpha around 1 in every language (range 0.06 vs 0.31 for real ws_raw), so the differences between languages come from the languages, not from the Zipf shape itself.
+
+Where I used ai:
+- Claude wrote the baseline changes.
